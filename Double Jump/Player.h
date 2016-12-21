@@ -14,6 +14,7 @@ public:
 	void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 private:
 	void verticalMovement(const float DT);
+	void horizontalMovement(const float DT);
 private:
 	sf::Vector2f velocity;
 };
