@@ -1,7 +1,6 @@
 #include "Player.h"
 #include "Constants.h"
-
-#include <iostream>
+#include <cmath>
 
 const sf::Vector2f Player::SIZE = sf::Vector2f(30.f, 30.f);
 const float Player::SPEED = 700.f;
@@ -12,15 +11,18 @@ Player::Player()
 {
 	velocity = sf::Vector2f(0.f, 0.f);
 	setPosition(WINDOW_WIDTH / 2.f - (SIZE.x / 2.f), WINDOW_HEIGHT / 2.f - (SIZE.y / 2.f));
+	isAlive = true;
+	wasUpPressed = false;
 }
 
-void Player::update(const float DT)
+void Player::update(const float DT, const sf::RenderWindow &WINDOW)
 {
-	verticalMovement(DT);
-	//horizontalMovement(DT);
-
-	//std::cout << getPosition().x << std::endl;
-
+	if (isAlive)
+	{
+		horizontalMovement(DT);
+		verticalMovement(DT);
+		gunMovement(DT, WINDOW);
+	}
 }
 
 void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const
@@ -30,16 +32,21 @@ void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const
 	body.setOutlineThickness(1.f);
 	body.setOutlineColor(sf::Color::White);
 	body.setPosition(getPosition());
+	
+	sf::RectangleShape gun(sf::Vector2f(SIZE.x * 1.2f, 1.f));
+	gun.setPosition(getPosition().x + SIZE.x / 2.f, getPosition().y + SIZE.y / 2.f);
+	gun.setRotation(getRotation());
 
 	target.draw(body);
+	target.draw(gun);
 }
 
 
 
 
-void Player::verticalMovement(const float DT)
+void Player::horizontalMovement(const float DT)
 {
-	// Move Left
+	// Move left
 	if (getPosition().x > 0.f)
 	{
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
@@ -51,7 +58,7 @@ void Player::verticalMovement(const float DT)
 	else
 		setPosition(0.f, getPosition().y);
 	
-	// Move Right
+	// Move right
 	if (getPosition().x < WINDOW_WIDTH - SIZE.x)
 	{
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
@@ -66,30 +73,41 @@ void Player::verticalMovement(const float DT)
 	velocity.x = 0.f;
 }
 
-void Player::horizontalMovement(const float DT)
+void Player::verticalMovement(const float DT)
 {
-	// TODO
+	bool isUpPressed = sf::Keyboard::isKeyPressed(sf::Keyboard::Up)
+					|| sf::Keyboard::isKeyPressed(sf::Keyboard::W)
+					|| sf::Keyboard::isKeyPressed(sf::Keyboard::Space);
 
-	// Gravity Movement
+	// Gravity movement
 	if (getPosition().y < WINDOW_HEIGHT - SIZE.y)
 	{
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)		||
-			sf::Keyboard::isKeyPressed(sf::Keyboard::Right) ||
-			sf::Keyboard::isKeyPressed(sf::Keyboard::Space)  )
-		{
-			velocity.y = -SPEED * DT;
-		}
+		// Jumping
+		if (isUpPressed && !wasUpPressed && getPosition().y > 0.f)
+			velocity.y = -SPEED;
 
+		// Gravity
 		velocity.y += GRAVITY;
+		
+		// Limits vertical speed
 		if (velocity.y >= MAX_SPEED)
 			velocity.y = MAX_SPEED;
 	}
-	else
+	// Died
+	else 
 	{
 		velocity.y = 0.f;
 		setPosition(getPosition().x, WINDOW_HEIGHT - SIZE.y);
-		// Died
+		isAlive = false;
 	}
 
+	wasUpPressed = isUpPressed;
 	move(0.f, velocity.y * DT);
+}
+
+void Player::gunMovement(const float DT, const sf::RenderWindow &WINDOW)
+{
+	sf::Vector2f gunDirection(sf::Mouse::getPosition(WINDOW).x - (getPosition().x + SIZE.x / 2.f),
+							  sf::Mouse::getPosition(WINDOW).y - (getPosition().y + SIZE.y / 2.f));
+	setRotation(atan2f(gunDirection.y, gunDirection.x) * RAD2DEG);
 }

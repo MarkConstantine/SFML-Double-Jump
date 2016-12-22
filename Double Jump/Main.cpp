@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include "Constants.h"
 #include "Player.h"
+#include "Enemy.h"
 
 int main()
 {
@@ -9,6 +10,7 @@ int main()
 	sf::Clock clock;
 
 	Player player;
+	Enemy enemy;
 	
 	// TEMP
 	sf::CircleShape center(1.f);
@@ -28,10 +30,11 @@ int main()
 				window.close();
 		}
 
-		player.update(dt);
+		player.update(dt, window);
 
 		window.clear();
 		window.draw(player);
+		window.draw(enemy);
 		window.draw(center);
 		window.display();
 	}
