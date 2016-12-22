@@ -14,6 +14,7 @@ public:
 	void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 	void setIsAlive(bool value) { isAlive = value; }
 	bool getIsAlive() const { return isAlive; }
+	sf::Vector2f getSize() const { return SIZE; }
 private:
 	void horizontalMovement(const float DT);
 	void verticalMovement(const float DT);

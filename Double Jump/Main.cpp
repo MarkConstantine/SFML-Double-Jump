@@ -2,6 +2,7 @@
 #include "Constants.h"
 #include "Player.h"
 #include "Enemy.h"
+#include <cstdlib>
 
 int main()
 {
@@ -10,7 +11,7 @@ int main()
 	sf::Clock clock;
 
 	Player player;
-	Enemy enemy;
+	Enemy enemy(sf::Vector2f(float(std::rand() % WINDOW_WIDTH), float(std::rand() % WINDOW_HEIGHT)));
 	
 	// TEMP
 	sf::CircleShape center(1.f);
@@ -31,11 +32,14 @@ int main()
 		}
 
 		player.update(dt, window);
+		enemy.attack(dt, player);
 
 		window.clear();
 		window.draw(player);
-		window.draw(enemy);
 		window.draw(center);
+		
+		window.draw(enemy);
+		
 		window.display();
 	}
 
