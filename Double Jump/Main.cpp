@@ -1,5 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include "Constants.h"
+#include "Wave.h"
+
 #include "Player.h"
 #include "Enemy.h"
 #include <cstdlib>
@@ -10,9 +12,11 @@ int main()
 	window.setFramerateLimit(60);
 	sf::Clock clock;
 
-	Player player;
-	Enemy enemy(sf::Vector2f(float(std::rand() % WINDOW_WIDTH), float(std::rand() % WINDOW_HEIGHT)));
+	//Player player;
+	//Enemy enemy(sf::Vector2f(float(std::rand() % WINDOW_WIDTH), float(std::rand() % WINDOW_HEIGHT)));
 	
+	Wave wave;
+
 	// TEMP
 	sf::CircleShape center(1.f);
 	center.setOrigin(1.f, 1.f);
@@ -31,16 +35,8 @@ int main()
 				window.close();
 		}
 
-		player.update(dt, window);
-		enemy.attack(dt, player);
+		wave.run(dt, window);
 
-		window.clear();
-		window.draw(player);
-		window.draw(center);
-		
-		window.draw(enemy);
-		
-		window.display();
 	}
 
 	return EXIT_SUCCESS;

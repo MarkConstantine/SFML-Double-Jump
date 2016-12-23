@@ -15,4 +15,3 @@ private:
 private:
 	bool isAlive;
 };
-
