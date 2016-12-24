@@ -29,6 +29,12 @@ void Enemy::draw(sf::RenderTarget &target, sf::RenderStates states) const
 	target.draw(body);
 }
 
+void Enemy::reset(sf::Vector2f position)
+{
+	setPosition(position);
+	isAlive = true;
+}
+
 
 
 

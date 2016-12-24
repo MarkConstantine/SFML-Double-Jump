@@ -10,6 +10,9 @@ public:
 	Enemy(sf::Vector2f startPosition);
 	void attack(const float DT, Player &player);
 	void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+	void reset(sf::Vector2f position);
+	
+	bool getIsAlive() const { return isAlive; }
 private:
 	bool colliding(Player &player) const;
 private:

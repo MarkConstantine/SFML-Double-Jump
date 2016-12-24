@@ -41,6 +41,15 @@ void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const
 	target.draw(gun);
 }
 
+void Player::reset()
+{
+	velocity = sf::Vector2f(0.f, 0.f);
+	setPosition(WINDOW_WIDTH / 2.f - (SIZE.x / 2.f), WINDOW_HEIGHT / 2.f - (SIZE.y / 2.f));
+	setRotation(90.f);
+	isAlive = true;
+	wasUpPressed = false;
+}
+
 
 
 

@@ -12,6 +12,8 @@ public:
 	Player();
 	void update(const float DT, const sf::RenderWindow &WINDOW);
 	void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+	void reset();
+
 	void setIsAlive(bool value) { isAlive = value; }
 	bool getIsAlive() const { return isAlive; }
 	sf::Vector2f getSize() const { return SIZE; }
