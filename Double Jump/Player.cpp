@@ -60,8 +60,8 @@ void Player::horizontalMovement(const float DT)
 	{
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 		{
-			velocity.x = -SPEED * DT;
-			move(velocity.x, 0.f);
+			velocity.x = -SPEED;
+			move(velocity.x * DT, 0.f);
 		}
 	}
 	else
@@ -72,8 +72,8 @@ void Player::horizontalMovement(const float DT)
 	{
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 		{
-			velocity.x = SPEED * DT;
-			move(velocity.x, 0.f);
+			velocity.x = SPEED;
+			move(velocity.x * DT, 0.f);
 		}
 	}
 	else
