@@ -13,6 +13,8 @@ Player::Player()
 	setPosition(WINDOW_WIDTH / 2.f - (SIZE.x / 2.f), WINDOW_HEIGHT / 2.f - (SIZE.y / 2.f));
 	isAlive = true;
 	wasUpPressed = false;
+	isShooting = false;
+	wasLMBPressed = false;
 }
 
 void Player::update(const float DT, const sf::RenderWindow &WINDOW)
@@ -48,6 +50,8 @@ void Player::reset()
 	setRotation(90.f);
 	isAlive = true;
 	wasUpPressed = false;
+	isShooting = false;
+	wasLMBPressed = false;
 }
 
 
@@ -116,7 +120,17 @@ void Player::verticalMovement(const float DT)
 
 void Player::gunMovement(const float DT, const sf::RenderWindow &WINDOW)
 {
+	bool isLMBPressed = sf::Mouse::isButtonPressed(sf::Mouse::Left);
+
 	sf::Vector2f gunDirection(sf::Mouse::getPosition(WINDOW).x - (getPosition().x + SIZE.x / 2.f),
 							  sf::Mouse::getPosition(WINDOW).y - (getPosition().y + SIZE.y / 2.f));
 	setRotation(atan2f(gunDirection.y, gunDirection.x) * RAD2DEG);
+
+	// Shooting
+	if (isLMBPressed && !wasLMBPressed)
+		isShooting = true;
+	else
+		isShooting = false;
+
+	wasLMBPressed = isLMBPressed;
 }

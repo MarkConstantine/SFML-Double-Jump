@@ -4,6 +4,7 @@
 #include <vector>
 #include "Player.h"
 #include "Enemy.h"
+#include "Bullet.h"
 
 class Wave
 {
@@ -22,7 +23,7 @@ private:
 	bool hasStarted;
 	Player player;
 	std::vector<Enemy> enemies;
-	std::vector<Enemy>::iterator it;
+	std::vector<Bullet> bullets;
 	sf::Font font;
 	sf::Text waveText;
 };

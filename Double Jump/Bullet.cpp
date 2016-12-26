@@ -1,12 +1,12 @@
 #include "Bullet.h"
 #include "Constants.h"
 
-const float Bullet::LIFETIME = 0.75f; // Seconds
-const float Bullet::SPEED = 1500.f;
+const float Bullet::LIFETIME = 0.5f;
+const float Bullet::SPEED = 2000.f;
 
 Bullet::Bullet(sf::Vector2f startPosition, float angle)
 {
-	direction = sf::Vector2f(std::cos(angle * RAD2DEG), std::sin(angle * RAD2DEG)); // Radians or degrees?
+	direction = sf::Vector2f(std::cos(angle * DEG2RAD), std::sin(angle * DEG2RAD));
 	remainingLife = LIFETIME;
 	isAlive = true;
 

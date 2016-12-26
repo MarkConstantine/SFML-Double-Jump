@@ -16,6 +16,7 @@ public:
 
 	void setIsAlive(bool value) { isAlive = value; }
 	bool getIsAlive() const { return isAlive; }
+	bool getIsShooting() const { return isShooting; }
 	sf::Vector2f getSize() const { return SIZE; }
 private:
 	void horizontalMovement(const float DT);
@@ -25,4 +26,6 @@ private:
 	sf::Vector2f velocity;
 	bool isAlive;
 	bool wasUpPressed;
+	bool isShooting;
+	bool wasLMBPressed;
 };
