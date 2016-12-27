@@ -23,6 +23,7 @@ private:
 	void reset(int startWave);
 private:
 	bool hasStarted;
+	bool hasDied;
 	int waveCount;
 	int enemyCount;
 	Player player;
@@ -30,5 +31,7 @@ private:
 	std::vector<Bullet> bullets;
 	sf::Font font;
 	sf::Text waveText;
+	sf::Text introText;
+	sf::Text deathText;
 };
 

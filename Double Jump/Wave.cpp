@@ -2,33 +2,35 @@
 #include "Constants.h"
 #include <cstdlib>
 
-// DEBUG
-#include <iostream>
-
 Wave::Wave()
 {
 	hasStarted = false;
+	hasDied = false;
 	waveCount = 1;
 	enemyCount = createEnemy(waveCount);
 
 	font.loadFromFile("arial.ttf");
-	waveText.setString("Wave: " + std::to_string(waveCount));
+	
 	waveText.setFont(font);
+	waveText.setString("Wave: " + std::to_string(waveCount));
 	waveText.setCharacterSize(20);
 	waveText.setPosition(WINDOW_WIDTH - 100.f, 0.f);
+
+	introText.setFont(font);
+	introText.setString("Press shift to start the wave.\n    Don't touch the ground!");
+	introText.setCharacterSize(25);
+	introText.setPosition((WINDOW_WIDTH / 2.f) - (introText.getGlobalBounds().width / 2.f), WINDOW_HEIGHT / 2.5);
+
+	deathText.setFont(font);
+	deathText.setString("             You Died!\n  You made it to wave " + std::to_string(waveCount) + ".\nPress shift to play again!");
+	deathText.setCharacterSize(25);
+	deathText.setPosition((WINDOW_WIDTH / 2.f) - (introText.getGlobalBounds().width / 2.f) + 25.f, WINDOW_HEIGHT / 2.5f);
 }
 
 void Wave::run(const float DT, sf::RenderWindow &window)
 {
 	if (hasStarted)
 	{
-		// DEBUG to advance to next wave.
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::V))
-			enemyCount = 0;
-
-		// DEBUG
-		std::cout << enemyCount << std::endl;
-
 		playerLogic(DT, window);
 		bulletLogic(DT);
 		enemyLogic(DT);
@@ -38,6 +40,7 @@ void Wave::run(const float DT, sf::RenderWindow &window)
 void Wave::render(sf::RenderWindow &window)
 {
 	waveText.setString("Wave: " + std::to_string(waveCount));
+	deathText.setString("             You Died!\n  You made it to wave " + std::to_string(waveCount) + ".\nPress shift to play again!");
 	
 	window.clear();
 	
@@ -46,6 +49,10 @@ void Wave::render(sf::RenderWindow &window)
 		window.draw(*it);
 	for (std::vector<Bullet>::iterator it = bullets.begin(); it != bullets.end(); ++it)
 		window.draw(*it);
+	if (!hasStarted)
+		window.draw(introText);
+	if (hasDied)
+		window.draw(deathText);
 	window.draw(waveText);
 	
 	window.display();
@@ -78,7 +85,9 @@ void Wave::playerLogic(const float DT, sf::RenderWindow &window)
 	// Player is killed (resets everything and sets wave back to 1).
 	if (!player.getIsAlive())
 	{
-		reset(1);
+		hasDied = true;
+		while (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) || sf::Keyboard::isKeyPressed(sf::Keyboard::RShift))
+			reset(1);
 	}
 }
 
@@ -138,6 +147,7 @@ void Wave::enemyLogic(const float DT)
 void Wave::reset(int startWave)
 {
 	hasStarted = false;
+	hasDied = false;
 	if (startWave == 1)
 	{
 		waveCount = 1;

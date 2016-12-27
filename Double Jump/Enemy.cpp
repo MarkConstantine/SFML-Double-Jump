@@ -15,7 +15,7 @@ void Enemy::attack(const float DT, Player &player)
 		sf::Vector2f target((player.getPosition().x + (player.getSize().x / 2.f)) - (getPosition().x + (SIZE.x / 2.f)), 
 							(player.getPosition().y + (player.getSize().y / 2.f)) - (getPosition().y + (SIZE.y / 2.f)));
 	
-		// Collision 
+		// Enemy has killed player. 
 		if (colliding(player))
 			player.setIsAlive(false);
 
