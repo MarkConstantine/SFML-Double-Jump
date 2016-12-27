@@ -20,6 +20,7 @@ private:
 	void playerLogic(const float DT, sf::RenderWindow &window);
 	void bulletLogic(const float DT);
 	void enemyLogic(const float DT);
+	void reset(int startWave);
 private:
 	bool hasStarted;
 	int waveCount;

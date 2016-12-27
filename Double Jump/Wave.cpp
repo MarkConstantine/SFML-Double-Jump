@@ -69,27 +69,21 @@ void Wave::playerLogic(const float DT, sf::RenderWindow &window)
 	// Player shooting
 	if (player.getIsShooting())
 	{
-		Bullet bullet(sf::Vector2f( player.getPosition().x + (player.getSize().x / 2.f)
-									, player.getPosition().y + (player.getSize().y / 2.f))
-									, player.getRotation());
+		Bullet bullet(sf::Vector2f( player.getPosition().x + (player.getSize().x / 2.f),
+									player.getPosition().y + (player.getSize().y / 2.f)),
+									player.getRotation());
 		bullets.push_back(bullet);
 	}
 
 	// Player is killed (resets everything and sets wave back to 1).
 	if (!player.getIsAlive())
 	{
-		enemies.clear();
-		hasStarted = false;
-		waveCount = 1;
-		enemyCount = createEnemy(waveCount);
-		player.reset();
-		bullets.clear();
+		reset(1);
 	}
 }
 
 void Wave::bulletLogic(const float DT)
 {
-	// Updating bullets
 	std::vector<Bullet>::iterator bulletIt = bullets.begin();
 	while (bulletIt != bullets.end())
 	{
@@ -119,7 +113,6 @@ void Wave::bulletLogic(const float DT)
 
 void Wave::enemyLogic(const float DT)
 {
-	// Enemy Logic
 	std::vector<Enemy>::iterator it = enemies.begin();
 	while (it != enemies.end())
 	{
@@ -138,10 +131,19 @@ void Wave::enemyLogic(const float DT)
 	// All enemies eliminated (resets everything and increments wave).
 	if (enemyCount == 0)
 	{
-		hasStarted = false;
-		waveCount++;
-		enemyCount = createEnemy(waveCount);
-		player.reset();
-		bullets.clear();
+		reset(++waveCount);
 	}
+}
+
+void Wave::reset(int startWave)
+{
+	hasStarted = false;
+	if (startWave == 1)
+	{
+		waveCount = 1;
+		enemies.clear();
+	}
+	enemyCount = createEnemy(waveCount);
+	player.reset();
+	bullets.clear();
 }
