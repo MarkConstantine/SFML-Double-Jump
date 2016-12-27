@@ -29,18 +29,16 @@ void Player::update(const float DT, const sf::RenderWindow &WINDOW)
 
 void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
-	sf::RectangleShape body(SIZE);
-	body.setFillColor(sf::Color::Red);
-	body.setOutlineThickness(1.f);
-	body.setOutlineColor(sf::Color::White);
-	body.setPosition(getPosition());
-	
 	sf::RectangleShape gun(sf::Vector2f(SIZE.x * 1.2f, 1.f));
 	gun.setPosition(getPosition().x + SIZE.x / 2.f, getPosition().y + SIZE.y / 2.f);
 	gun.setRotation(getRotation());
 
-	target.draw(body);
+	sf::RectangleShape body(SIZE);
+	body.setFillColor(sf::Color::Red);
+	body.setPosition(getPosition());
+	
 	target.draw(gun);
+	target.draw(body);
 }
 
 void Player::reset()

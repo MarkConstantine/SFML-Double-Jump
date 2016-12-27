@@ -32,6 +32,7 @@ int main()
 			wave.run(dt, window);
 
 		wave.render(window);
+
 	}
 
 	return EXIT_SUCCESS;

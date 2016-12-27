@@ -16,11 +16,14 @@ public:
 	void setHasStarted(bool value) { hasStarted = value; }
 	bool getHasStarted() { return hasStarted; }
 private:
-	int createEnemy();
+	int createEnemy(int wave);
+	void playerLogic(const float DT, sf::RenderWindow &window);
+	void bulletLogic(const float DT);
+	void enemyLogic(const float DT);
 private:
+	bool hasStarted;
 	int waveCount;
 	int enemyCount;
-	bool hasStarted;
 	Player player;
 	std::vector<Enemy> enemies;
 	std::vector<Bullet> bullets;

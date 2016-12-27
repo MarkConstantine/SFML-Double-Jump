@@ -12,7 +12,9 @@ public:
 	void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 	void reset(sf::Vector2f position);
 	
+	void setIsAlive(bool value) { isAlive = value; }
 	bool getIsAlive() const { return isAlive; }
+	sf::Vector2f getSize() const { return SIZE; }
 private:
 	bool colliding(Player &player) const;
 private:

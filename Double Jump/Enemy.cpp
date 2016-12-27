@@ -10,14 +10,17 @@ Enemy::Enemy(sf::Vector2f startPosition)
 
 void Enemy::attack(const float DT, Player &player)
 {
-	sf::Vector2f target((player.getPosition().x + (player.getSize().x / 2.f)) - (getPosition().x + (SIZE.x / 2.f)), 
-						(player.getPosition().y + (player.getSize().y / 2.f)) - (getPosition().y + (SIZE.y / 2.f)));
+	if (isAlive)
+	{
+		sf::Vector2f target((player.getPosition().x + (player.getSize().x / 2.f)) - (getPosition().x + (SIZE.x / 2.f)), 
+							(player.getPosition().y + (player.getSize().y / 2.f)) - (getPosition().y + (SIZE.y / 2.f)));
 	
-	// Collision 
-	if (colliding(player))
-		player.setIsAlive(false);
+		// Collision 
+		if (colliding(player))
+			player.setIsAlive(false);
 
-	move(target * DT);
+		move(target * DT);
+	}
 }
 
 void Enemy::draw(sf::RenderTarget &target, sf::RenderStates states) const

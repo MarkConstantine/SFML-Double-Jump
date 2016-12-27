@@ -1,8 +1,9 @@
 #include "Bullet.h"
 #include "Constants.h"
 
-const float Bullet::LIFETIME = 0.5f;
-const float Bullet::SPEED = 2000.f;
+const float Bullet::LIFETIME = 0.75f;
+const float Bullet::SPEED = 1000.f;
+const sf::Vector2f Bullet::SIZE = sf::Vector2f(2.f, 2.f);
 
 Bullet::Bullet(sf::Vector2f startPosition, float angle)
 {
@@ -27,8 +28,26 @@ void Bullet::update(const float DT)
 
 void Bullet::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
-	sf::CircleShape bullet(1.f);
+	sf::RectangleShape bullet(SIZE);
 	bullet.setPosition(getPosition());
 
 	target.draw(bullet);
+}
+
+bool Bullet::colliding(Enemy &enemy) const
+{
+	// Checking Vertical Collision
+	if (getPosition().y + SIZE.y < enemy.getPosition().y)
+		return false;
+	if (getPosition().y > enemy.getPosition().y + enemy.getSize().y)
+		return false;
+
+	// Checking Horizontal Collision
+	if (getPosition().x > enemy.getPosition().x + enemy.getSize().x)
+		return false;
+	if (getPosition().x + SIZE.x < enemy.getPosition().x)
+		return false;
+
+	// Bullet is colliding with enemy
+	return true;
 }
