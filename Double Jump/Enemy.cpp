@@ -1,4 +1,5 @@
 #include "Enemy.h"
+#include <cmath>
 
 const sf::Vector2f Enemy::SIZE = sf::Vector2f(15.f, 15.f);
 
@@ -8,13 +9,24 @@ Enemy::Enemy(sf::Vector2f startPosition)
 	isAlive = true;
 }
 
-void Enemy::attack(const float DT, Player &player)
+void Enemy::attack(const float DT, Player &player, std::vector<Enemy> otherEnemies)
 {
 	if (isAlive)
 	{
 		sf::Vector2f target((player.getPosition().x + (player.getSize().x / 2.f)) - (getPosition().x + (SIZE.x / 2.f)), 
 							(player.getPosition().y + (player.getSize().y / 2.f)) - (getPosition().y + (SIZE.y / 2.f)));
-	
+		
+		// Separate if too close to another enemy.
+		for (std::vector<Enemy>::iterator it = otherEnemies.begin(); it != otherEnemies.end(); ++it)
+		{
+			float distance = std::sqrt(std::pow(it->getPosition().x - getPosition().x, 2) + std::pow(it->getPosition().y - getPosition().y, 2));
+			if (distance > 0 && distance < 50.f)
+			{
+				sf::Vector2f difference = getPosition() - it->getPosition();
+				target += difference;
+			}
+		}
+
 		// Enemy has killed player. 
 		if (colliding(player))
 			player.setIsAlive(false);

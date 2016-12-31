@@ -2,8 +2,8 @@
 #include "Constants.h"
 
 const float Bullet::LIFETIME = 0.75f;
-const float Bullet::SPEED = 1000.f;
-const sf::Vector2f Bullet::SIZE = sf::Vector2f(2.f, 2.f);
+const float Bullet::SPEED = 1100.f;
+const sf::Vector2f Bullet::SIZE = sf::Vector2f(4.f, 4.f);
 
 Bullet::Bullet(sf::Vector2f startPosition, float angle)
 {
@@ -29,6 +29,7 @@ void Bullet::update(const float DT)
 void Bullet::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
 	sf::RectangleShape bullet(SIZE);
+	bullet.setOrigin(SIZE.x / 2.f, SIZE.y / 2.f);
 	bullet.setPosition(getPosition());
 
 	target.draw(bullet);

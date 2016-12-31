@@ -1,14 +1,11 @@
 #include <SFML/Graphics.hpp>
 #include "Constants.h"
 #include "Wave.h"
-#include "Player.h"
-#include "Enemy.h"
-#include <cstdlib>
 
 int main()
 {
 	sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Double Jump");
-	window.setFramerateLimit(60);
+	window.setFramerateLimit(FPS);
 	sf::Clock clock;
 	
 	Wave wave;
@@ -21,16 +18,11 @@ int main()
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
-			if (event.type == sf::Event::Closed)
+			if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 				window.close();
 		}
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) || sf::Keyboard::isKeyPressed(sf::Keyboard::RShift))
-			wave.setHasStarted(true);
-
-		if (wave.getHasStarted())
-			wave.run(dt, window);
-
+		wave.run(dt, window);
 		wave.render(window);
 
 	}

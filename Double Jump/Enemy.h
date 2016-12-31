@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <vector>
 #include "Player.h"
 
 class Enemy : public sf::Drawable, public sf::Transformable
@@ -8,7 +9,7 @@ class Enemy : public sf::Drawable, public sf::Transformable
 	static const sf::Vector2f SIZE;
 public:
 	Enemy(sf::Vector2f startPosition);
-	void attack(const float DT, Player &player);
+	void attack(const float DT, Player &player, std::vector<Enemy> otherEnemies);
 	void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 	void reset(sf::Vector2f position);
 	

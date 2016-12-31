@@ -19,16 +19,19 @@ Wave::Wave()
 	introText.setFont(font);
 	introText.setString("Press shift to start the wave.\n    Don't touch the ground!");
 	introText.setCharacterSize(25);
-	introText.setPosition((WINDOW_WIDTH / 2.f) - (introText.getGlobalBounds().width / 2.f), WINDOW_HEIGHT / 2.5);
+	introText.setPosition((WINDOW_WIDTH / 2.f) - (introText.getGlobalBounds().width / 2.f), WINDOW_HEIGHT / 3.f);
 
 	deathText.setFont(font);
 	deathText.setString("             You Died!\n  You made it to wave " + std::to_string(waveCount) + ".\nPress shift to play again!");
 	deathText.setCharacterSize(25);
-	deathText.setPosition((WINDOW_WIDTH / 2.f) - (introText.getGlobalBounds().width / 2.f) + 25.f, WINDOW_HEIGHT / 2.5f);
+	deathText.setPosition((WINDOW_WIDTH / 2.f) - (introText.getGlobalBounds().width / 2.f) + 25.f, WINDOW_HEIGHT / 3.f);
 }
 
 void Wave::run(const float DT, sf::RenderWindow &window)
 {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) || sf::Keyboard::isKeyPressed(sf::Keyboard::RShift))
+		hasStarted = true;
+
 	if (hasStarted)
 	{
 		playerLogic(DT, window);
@@ -127,7 +130,7 @@ void Wave::enemyLogic(const float DT)
 	{
 		if (it->getIsAlive())
 		{
-			it->attack(DT, player);
+			it->attack(DT, player, enemies);
 			++it;
 		}
 		else
